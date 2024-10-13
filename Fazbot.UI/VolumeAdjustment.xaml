@@ -1,0 +1,19 @@
+﻿<Window x:Class="Fazbot.UI.VolumeAdjustment"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        mc:Ignorable="d"
+        Title="VolumeAdjustment" Height="450" Width="800" d:DataContext="{d:DesignInstance }">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        
+        <TextBox Grid.Row="0" Name="TextBox"/>
+        <Button Grid.Row="1" Click="OnOkButtonClicked">
+            <TextBlock>Ok</TextBlock>
+        </Button>
+    </Grid>
+</Window>
