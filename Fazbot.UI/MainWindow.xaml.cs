@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Fazbot.App.Services;
 using Fazbot.AudioPlayer;
+using Microsoft.Extensions.Configuration;
 using NAudio.Wave;
 
 namespace Fazbot.UI;
@@ -17,9 +18,13 @@ public partial class MainWindow
 
     private readonly ObservableCollection<AudioTask> _audioTasks = [];
 
+    private readonly string _audiosLocation;
+
     public MainWindow(AdminCommandsService adminCommandsService, CustomAudioPlayer audioPlayer,
-        DiscordBotService discordBotService)
+        DiscordBotService discordBotService, IConfiguration configuration)
     {
+        _audiosLocation = configuration["AudiosLocation"]!;
+        
         _adminCommands = adminCommandsService;
         _audioPlayer = audioPlayer;
         _discordBotService = discordBotService;
@@ -34,8 +39,7 @@ public partial class MainWindow
 
     private void GenerateButtons()
     {
-        const string folderPath = @"D:\Dev\CarlosSama\Fazbot.AudioPlayer\audios\";
-        var files = Directory.GetFiles(folderPath, "*.mp3");
+        var files = Directory.GetFiles(_audiosLocation, "*.mp3");
         foreach (var file in files)
         {
             var button = new Button
@@ -95,10 +99,10 @@ public partial class MainWindow
                 var audioTask = _audioTasks[index];
                 if (audioTask.WaveOutEvent.PlaybackState != PlaybackState.Stopped) continue;
                 
-                var index1 = index;
+                var indexToRemove = index;
                 Application.Current.Dispatcher.Invoke((Action) delegate
                 {
-                    _audioTasks.RemoveAt(index1);
+                    _audioTasks.RemoveAt(indexToRemove);
                 });
             }
 
