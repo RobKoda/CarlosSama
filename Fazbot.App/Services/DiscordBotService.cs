@@ -9,12 +9,15 @@ public class DiscordBotService
 {
     private readonly DiscordClient _client;
     
-    public DiscordBotService(FazbotMessageHandler messageHandler, IConfiguration configuration)
+    public DiscordBotService(FazbotMessageHandler messageHandler, IConfiguration configuration, FazComputerMessagesService fazComputerMessagesService)
     {
         var token = configuration["DiscordToken"]!;
         var builder = DiscordClientBuilder.CreateDefault(token, DiscordIntents.All);
-        builder.ConfigureEventHandlers(configure => 
-            configure.HandleMessageCreated((client, args) => messageHandler.OnMessageCreated(client, args, this)));
+        builder.ConfigureEventHandlers(configure =>
+        {
+            configure.HandleMessageCreated((client, args) => messageHandler.OnMessageCreated(client, args, this));
+            configure.HandleGuildAvailable((_, _) => fazComputerMessagesService.Init(this));
+        });
         builder.UseVoiceNext(new VoiceNextConfiguration());
         _client = builder.Build();
     }

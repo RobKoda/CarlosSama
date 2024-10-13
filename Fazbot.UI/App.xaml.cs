@@ -40,7 +40,9 @@ public partial class App
     {
         services.AddSingleton<CustomAudioPlayer>();
         
+        services.AddSingleton<FazComputer>();
         services.AddSingleton<AdminCommandsService>();
+        services.AddSingleton<FazComputerMessagesService>();
         services.AddSingleton<AdminMessagesService>();
         services.AddSingleton<MessagesService>();
         services.AddSingleton<FazbotMessageHandler>();

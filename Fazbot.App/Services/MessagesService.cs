@@ -2,7 +2,7 @@
 
 namespace Fazbot.App.Services;
 
-public class MessagesService(AdminMessagesService adminMessagesService)
+public class MessagesService(AdminMessagesService adminMessagesService, FazComputerMessagesService fazComputerMessagesService)
 {
     public async Task ProcessMessageAsync(DiscordBotService discordBotService, DiscordMessage message)
     {
@@ -10,6 +10,9 @@ public class MessagesService(AdminMessagesService adminMessagesService)
         {
             case "bot-commands":
                 await adminMessagesService.ProcessAdminMessageAsync(discordBotService, message);
+                break;
+            case "ordinateur":
+                await fazComputerMessagesService.ProcessFazComputerMessageAsync(message);
                 break;
         }
     }
